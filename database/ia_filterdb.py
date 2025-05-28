@@ -19,13 +19,13 @@ instance = Instance.from_db(db)
 
 @instance.register
 class Media(Document):
-    file_id = fields.StringField(required=True, default=None)
-    file_ref = fields.StringField(allow_none=True, default=None)
-    file_name = fields.StringField(required=True, default=None)
-    file_size = fields.IntegerField(required=True, default=0)
-    file_type = fields.StringField(allow_none=True, default=None)
-    mime_type = fields.StringField(allow_none=True, default=None)
-    caption = fields.StringField(allow_none=True, default=None)
+    file_id = fields.StringField(required=True, allow_none=True, missing=None)
+    file_ref = fields.StringField(allow_none=True, missing=None)
+    file_name = fields.StringField(required=True, allow_none=True, missing=None)
+    file_size = fields.IntegerField(required=True, missing=0)
+    file_type = fields.StringField(allow_none=True, missing=None)
+    mime_type = fields.StringField(allow_none=True, missing=None)
+    caption = fields.StringField(allow_none=True, missing=None)
 
     class Meta:
         collection_name = COLLECTION_NAME
