@@ -86,10 +86,10 @@ DOWNLOAD_LOCATION = environ.get("DOWNLOAD_LOCATION", "./DOWNLOADS/AudioBoT/")
 
 # Others
 DELETE_CHANNELS = [int(dch) if id_pattern.search(dch) else dch for dch in environ.get('DELETE_CHANNELS', '').split()]
-PORT = os.environ.get("PORT", "7202")
+PORT = os.environ.get("PORT", "8080")
 MAX_BTN = int(environ.get('MAX_BTN', "10"))
-S_GROUP = environ.get('S_GROUP',"https://t.me/Cinemathattakam_Group")
-MAIN_CHANNEL = environ.get('MAIN_CHANNEL',"https://t.me/CT_Arena")
+S_GROUP = environ.get('S_GROUP',"https://t.me/+P_ni_6Ji_DAyMzQ1")
+MAIN_CHANNEL = environ.get('MAIN_CHANNEL',"https://t.me/+P_ni_6Ji_DAyMzQ1")
 FILE_FORWARD = environ.get('FILE_FORWARD',"-1002559239397")
 MSG_ALRT = environ.get('MSG_ALRT', '𝐓𝐡𝐚𝐧𝐤 𝐲𝐨𝐮 𝐃𝐫 സാത്താൻ 𝐒𝐢𝐫 💜')
 FILE_CHANNEL = int(environ.get('FILE_CHANNEL', "-1002610679149"))
