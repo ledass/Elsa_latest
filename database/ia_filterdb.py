@@ -19,18 +19,19 @@ instance = Instance.from_db(db)
 
 @instance.register
 class Media(Document):
-    file_id = fields.StringField(required=True)
-    file_ref = fields.StringField(allow_none=True)
-    file_name = fields.StringField(required=True)
-    file_size = fields.IntegerField(required=True)
-    file_type = fields.StringField(allow_none=True)
-    mime_type = fields.StringField(allow_none=True)
-    caption = fields.StringField(allow_none=True)
+    file_id = fields.StringField(required=True, default=None)
+    file_ref = fields.StringField(allow_none=True, default=None)
+    file_name = fields.StringField(required=True, default=None)
+    file_size = fields.IntegerField(required=True, default=0)
+    file_type = fields.StringField(allow_none=True, default=None)
+    mime_type = fields.StringField(allow_none=True, default=None)
+    caption = fields.StringField(allow_none=True, default=None)
 
     class Meta:
         collection_name = COLLECTION_NAME
         indexes = ('$file_name', )
-        id_field = 'file_id'  # ✅ tells umongo to use file_id as the _id
+        id_field = 'file_id'
+
 
 
 async def save_file(media):
