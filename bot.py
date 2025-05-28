@@ -7,17 +7,12 @@ logging.getLogger().setLevel(logging.INFO)
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
 logging.getLogger("imdbpy").setLevel(logging.ERROR)
 
-
-import os
-import sys
-
 from pyrogram import utils as pyroutils
-from pyrogram import Client, __version__, filters
+from pyrogram import Client, version, filters
 from pyrogram.raw.all import layer
 from database.ia_filterdb import Media
 from database.users_chats_db import db
-from database.join_reqs import JoinReqs
-from info import SESSION, API_ID, API_HASH, BOT_TOKEN, LOG_STR, LOG_CHANNEL, PORT, REQ_CHANNEL
+from info import SESSION, API_ID, API_HASH, BOT_TOKEN, LOG_STR, LOG_CHANNEL, PORT
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
@@ -31,17 +26,18 @@ from plugins import web_server
 pyroutils.MIN_CHAT_ID = -999999999999
 pyroutils.MIN_CHANNEL_ID = -100999999999999
 
+
 class Bot(Client):
 
-    def __init__(self):
-        super().__init__(
+    def init(self):
+        super().init(
             name=SESSION,
             api_id=API_ID,
             api_hash=API_HASH,
             bot_token=BOT_TOKEN,
-            workers=150,
+            workers=200,
             plugins={"root": "plugins"},
-            sleep_threshold=5,
+            sleep_threshold=20,
         )
 
     async def start(self):
@@ -50,23 +46,12 @@ class Bot(Client):
         temp.BANNED_CHATS = b_chats
         await super().start()
         await Media.ensure_indexes()
-        if REQ_CHANNEL == None:
-            with open("./dynamic.env", "wt+") as f:
-                req = await JoinReqs().get_fsub_chat()
-                if req is None:
-                    req = False
-                else:
-                    req = req['chat_id']
-                f.write(f"REQ_CHANNEL={req}\n")
-            logging.info("Loading REQ_CHANNEL from database...")
-            os.execl(sys.executable, sys.executable, "bot.py")
-            return
         me = await self.get_me()
         temp.ME = me.id
         temp.U_NAME = me.username
         temp.B_NAME = me.first_name
         self.username = '@' + me.username
-        logging.info(f"{me.first_name} with for Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
+        logging.info(f"{me.first_name} with for Pyrogram v{version} (Layer {layer}) started on {me.username}.")
         logging.info(LOG_STR)
         tz = pytz.timezone('Asia/Kolkata')
         today = date.today()
@@ -89,7 +74,7 @@ class Bot(Client):
         offset: int = 0,
     ) -> Optional[AsyncGenerator["types.Message", None]]:
         """Iterate through a chat sequentially.
-        This convenience method does the same as repeatedly calling :meth:`~pyrogram.Client.get_messages` in a loop, thus saving
+        This convenience method does the same as repeatedly calling :meth:~pyrogram.Client.get_messages in a loop, thus saving
         you from the hassle of setting up boilerplate code. It is useful for getting the whole chat messages with a
         single call.
         Parameters:
@@ -105,7 +90,7 @@ class Bot(Client):
                 Identifier of the first message to be returned.
                 Defaults to 0.
         Returns:
-            ``Generator``: A generator yielding :obj:`~pyrogram.types.Message` objects.
+            ``Generator``: A generator yielding :obj:~pyrogram.types.Message objects.
         Example:
             .. code-block:: python
                 for message in app.iter_messages("pyrogram", 1, 15000):
